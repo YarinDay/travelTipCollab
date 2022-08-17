@@ -25,16 +25,15 @@ function initMap(lat = 31.501595418345833, lng = 34.46217911117168) {
                 lat,
                 lng
             }
-            startMap(gMap, locs)
+            startMap(gMap, lat, lng)
         })
 }
 
-function startMap(map, pos) {
-    let { lat, lng } = pos
-    const myLatlng = { lat, lng };
+function startMap(map, myLatlng) {
     console.log('myLatlng : ',myLatlng);
+    // const myLatlng = { pos.lat: -25.363, pos.lng: 131.044 };
 
-    // const map = new google.maps.Map(document.getElementById("map"), {
+    // const map = new google.maps.Map(document.getElementById("#map")!, {
     //     zoom: 4,
     //     center: myLatlng,
     // });
@@ -42,19 +41,20 @@ function startMap(map, pos) {
     // Create the initial InfoWindow.
     let infoWindow = new google.maps.InfoWindow({
         content: "Click the map to get Lat/Lng!",
-        position: myLatlng
+        position: myLatlng,
+        posLat: myLatlng.lat,
+        posLng: myLatlng.lng
     });
-    console.log('position : ', position);
-    console.log('infoWindow : ',infoWindow);
+    console.log('position : ',position);
     infoWindow.open(map);
-
+    
     // Configure the click listener.
     map.addListener("click", (mapsMouseEvent) => {
+        console.log(infoWindow.content);
         // Close the current InfoWindow.
         console.log('KKK')
         console.log('infoWindow : ', infoWindow);
         infoWindow.close();
-
         // Create a new InfoWindow.
         infoWindow = new google.maps.InfoWindow({
             position: mapsMouseEvent.latLng,
