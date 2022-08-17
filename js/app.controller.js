@@ -2,12 +2,14 @@ import { locService } from './services/loc.service.js'
 import { mapService } from './services/map.service.js'
 
 export const appController = {
+    renderLocs
 }
 
 window.onload = onInit
 window.onAddMarker = onAddMarker
 window.onPanTo = onPanTo
 window.onGetLocs = onGetLocs
+window.renderLocs = renderLocs
 window.onGetUserPos = onGetUserPos
 window.onGoToLoc = onGoToLoc
 window.onHideLocs = onHideLocs
@@ -68,19 +70,25 @@ function onGetLocs() {
                 document.querySelector('.locs').innerHTML = 'There is nothing on the Locations List...'
                 return
             }
-            const strHTMLs = locs.map(loc => {
-                return `<div class="loc-container">
-                ${JSON.stringify(loc, null, 2)}
-                <button onclick="onGoToLoc('${loc.lat}', '${loc.lng}')" class="btn-loc-coords">
-                GoTo ${loc.name}
-                </button>
-                <button onclick="onDeleteLoc('${loc.id}')" class="btn-loc-details">
-                Delete
-                </button>
-                </div>`
-            })
-            document.querySelector('.locs').innerHTML = strHTMLs.join('')
+            renderLocs(locs)
         })
+}
+
+function renderLocs(locs) {
+    console.log('locs : ', locs);
+    const strHTMLs = locs.map(loc => {
+        return `
+        Location :
+        <div class="loc-container">
+        ${JSON.stringify(loc, null, 2)}
+        <button onclick="onGoToLoc('${loc.lat}', '${loc.lng}')" class="btn btn-loc-coords">GoTo${loc.name}</button>
+        <button onclick="onDeleteLoc('${loc.id}')" class="btn btn-loc-details">
+        Delete
+        </button>
+        </div>`
+    })
+    document.querySelector('.locs').innerHTML = strHTMLs.join('')
+
 }
 
 function onGetUserPos() {
@@ -89,8 +97,8 @@ function onGetUserPos() {
             console.log('User position is:', pos.coords)
             document.querySelector('.user-pos').innerText =
                 `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`
-            console.log('pos : ', pos);
-        })
+        console.log('pos : ',pos);
+            })
         .catch(err => {
             console.log('err!!!', err)
         })
@@ -98,8 +106,8 @@ function onGetUserPos() {
 
 function onPanTo(lat = 35.6895, lng = 139.6917) {
     console.log('Panning the Map')
-    console.log('lat : ', lat);
-    console.log('lng : ', lng);
+    console.log('lat : ',lat);
+    console.log('lng : ',lng);
     mapService.panTo(lat, lng)
 }
 

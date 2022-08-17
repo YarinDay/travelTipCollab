@@ -1,5 +1,38 @@
 body {
     background-color: wheat;
+    text-align: center;
+}
+
+.main-container {
+    margin: auto;
+    width: 600px;
+}
+
+.locs-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.locs>* {
+    background-color: beige;
+    border-bottom: 1px solid black;
+}
+
+.btn {
+    max-width: 100px;
+    border: none;
+    cursor: pointer;
+    background-color: #b4bbc1;
+}
+
+.btn:hover {
+    background-color: rgb(184, 168, 168);
+}
+
+.btn-container {
+    display: inline;
+    width: 100px;
 }
 
 .loc-container {
@@ -17,4 +50,8 @@ body {
 
 #map {
     border: 1px solid black;
+    width: 550px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
