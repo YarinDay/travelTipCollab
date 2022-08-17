@@ -1,5 +1,5 @@
 
-// import { storageService } from './services/storage.service.js'
+import { storageService } from './storage.service.js'
 
 export const mapService = {
     initMap,
@@ -8,8 +8,8 @@ export const mapService = {
 }
 
 // Var that is used throughout this Module (not global)
-var gMap
-
+let gMap
+let gLocs
 function initMap(lat = 31.501595418345833, lng = 34.46217911117168) {
     console.log('InitMap')
     return _connectGoogleApi()
@@ -20,11 +20,7 @@ function initMap(lat = 31.501595418345833, lng = 34.46217911117168) {
                 center: { lat, lng },
                 zoom: 15
             })
-            console.log('Map!', gMap)
-            let locs = {
-                lat,
-                lng
-            }
+
             startMap(gMap, lat, lng)
         })
 }
@@ -41,6 +37,9 @@ function startMap(map, lat, lng) {
     map.addListener("click", (mapsMouseEvent) => {
         console.log('Lat', infoWindow.position.lat())
         console.log('Lng', infoWindow.position.lng())
+        const name = prompt('Enter Location Name')
+        addLocs(name, infoWindow.position.lat(), infoWindow.position.lng())
+
         infoWindow.close();
         infoWindow = new google.maps.InfoWindow({
             position: mapsMouseEvent.latLng,
@@ -50,6 +49,11 @@ function startMap(map, lat, lng) {
         );
         infoWindow.open(map);
     });
+}
+
+function addLocs(name, lat, lng) {
+    console.log('name, lat, lng', name, lat, lng);
+    storageService.saveToStorage()
 }
 
 function addMarker(loc) {
