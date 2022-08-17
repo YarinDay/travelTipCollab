@@ -39,8 +39,8 @@ function startMap(map, lat, lng) {
 
     infoWindow.open(map);
     map.addListener("click", (mapsMouseEvent) => {
-        console.log(infoWindow.position.lat());
-        console.log(infoWindow.position.lng());
+        console.log('Lat', infoWindow.position.lat())
+        console.log('Lng', infoWindow.position.lng())
         infoWindow.close();
         infoWindow = new google.maps.InfoWindow({
             position: mapsMouseEvent.latLng,
