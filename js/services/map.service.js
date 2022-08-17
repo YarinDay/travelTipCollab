@@ -1,17 +1,15 @@
 import { storageService } from './storage.service.js'
-import { appController } from '../app.controller.js'
 import { utilService } from './utils.service.js'
 
 export const mapService = {
     initMap,
     addMarker,
     panTo,
-    goToLoc
+    goToLoc,
+    deleteLoc
 }
 
-// Var that is used throughout this Module (not global)
 let gMap
-// const STORAGE_KEY = 'travelDB'
 let gLocs = storageService.load() || []
 
 function initMap(lat = 31.501595418345833, lng = 34.46217911117168) {
@@ -24,7 +22,6 @@ function initMap(lat = 31.501595418345833, lng = 34.46217911117168) {
                 center: { lat, lng },
                 zoom: 15
             })
-
             startMap(gMap, lat, lng)
         })
 }
@@ -37,34 +34,28 @@ function startMap(map, lat, lng) {
     });
     infoWindow.open(map);
     map.addListener("click", (mapsMouseEvent) => {
-        console.log('mapsMouseEvent : ',mapsMouseEvent);
+        console.log('mapsMouseEvent : ', mapsMouseEvent)
         let lat = mapsMouseEvent.latLng.lat()
         let lng = mapsMouseEvent.latLng.lng()
-        console.log('lat : ',lat);
-        console.log('lng : ',lng);
         let locName = prompt('Whats the place name ?')
-        addLoc(lat, lng, locName)
-        // console.log('infoWindow : ',infoWindow.position.lat());
-
+        addLoc(locName, lat, lng)
         infoWindow.close();
         infoWindow = new google.maps.InfoWindow({
-
             position: mapsMouseEvent.latLng,
-        });
+        })
         infoWindow.setContent(
             JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
-        );
-        infoWindow.open(map);
-    });
+        )
+        infoWindow.open(map)
+    })
 }
 
-function addLoc(lat, lng, name) {
-    console.log('lat : ',lat);
-    console.log('lng : ',lng);
+function addLoc(name, lat, lng) {
+    if (!name) return
     gLocs.push({
+        name,
         lat,
         lng,
-        name,
         id: utilService.makeId(),
         createdAt: Date.now(),
     })
@@ -76,7 +67,7 @@ function _saveInfoToStorage() {
 }
 
 function addMarker(loc) {
-    var marker = new google.maps.Marker({
+    let marker = new google.maps.Marker({
         position: loc,
         map: gMap,
         title: 'Hello World!'
@@ -85,17 +76,15 @@ function addMarker(loc) {
 }
 
 function panTo(lat, lng) {
-    var laLatLng = new google.maps.LatLng(lat, lng)
+    let laLatLng = new google.maps.LatLng(lat, lng)
     let loc = { lat: laLatLng.lat(), lng: laLatLng.lng() }
-    console.log('laLatLng : ', loc);
-    console.log('gMap : ', gMap);
     gMap.panTo(loc)
 }
 
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
     const API_KEY = 'AIzaSyAONBuSkGU1JpdVw8GEKJhkzB0X8bsHsMU' //DONE: Enter your API Key
-    var elGoogleApi = document.createElement('script')
+    let elGoogleApi = document.createElement('script')
     elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}`
     elGoogleApi.async = true
     document.body.append(elGoogleApi)
@@ -105,16 +94,15 @@ function _connectGoogleApi() {
         elGoogleApi.onerror = () => reject('Google script failed to load')
     })
 }
-//32.0132° N,
-// 34.7480° E
-function goToLoc(lat, lng) {
-    console.log('lat : ',lat);
-    console.log('lng : ',lng);
-    var laLatLng = new google.maps.LatLng(lat, lng)
-    console.log('laLatLng : ',laLatLng);
-    let loc = { lat: laLatLng.lat(), lng: laLatLng.lng() }
-    console.log('laLatLng : ', loc);
-    console.log('gMap : ', gMap);
-    gMap.panTo(loc)
 
+function goToLoc(lat, lng) {
+    const laLatLng = new google.maps.LatLng(lat, lng)
+    const loc = { lat: laLatLng.lat(), lng: laLatLng.lng() }
+    gMap.panTo(loc)
+}
+
+function deleteLoc(locId) {
+    const index = gLocs.findIndex(loc => loc.id === locId)
+    gLocs.splice(index, 1)
+    _saveInfoToStorage()
 }

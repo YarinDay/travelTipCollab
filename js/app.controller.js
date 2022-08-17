@@ -10,6 +10,9 @@ window.onPanTo = onPanTo
 window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
 window.onGoToLoc = onGoToLoc
+window.onHideLocs = onHideLocs
+window.onClearLocs = onClearLocs
+window.onDeleteLoc = onDeleteLoc
 
 function onInit() {
     mapService.initMap()
@@ -32,18 +35,34 @@ function onAddMarker() {
     mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 })
 }
 
+function onHideLocs(){
+    document.querySelector('.locs').innerHTML = ``
+}
+
+function onClearLocs(){
+    window.localStorage.clear()
+    document.querySelector('.locs').innerHTML = ``
+}
+
 function onGetLocs() {
     locService.getLocs()
     .then(locs => {
-            if(!locs) {
+            if(!locs || !locs.length) {
                 document.querySelector('.locs').innerHTML = 'There is nothing on the Locations List...'
                 return
             }
-            locs.map(loc => {
-                document.querySelector('.locs').innerHTML += `<div class="loc-container">${JSON.stringify(loc, null, 2)}<button onclick="onGoToLoc('${loc.lat}', '${loc.lng}')"class="kaki">GoTo ${loc.name}</button></div>`
+            const strHTMLs = locs.map(loc => {
+                return `<div class="loc-container">
+                ${JSON.stringify(loc, null, 2)}
+                <button onclick="onGoToLoc('${loc.lat}', '${loc.lng}')" class="btn-loc-coords">
+                GoTo ${loc.name}
+                </button>
+                <button onclick="onDeleteLoc('${loc.id}')" class="btn-loc-details">
+                Delete
+                </button>
+                </div>`
             })
-            // document.querySelector('.locs').innerText = JSON.stringify(locs, null, 2)
-            // document.querySelector('.locs').innerHTML += btn
+            document.querySelector('.locs').innerHTML = strHTMLs.join('')
         })
 }
 
@@ -69,4 +88,8 @@ function onPanTo(lat = 35.6895, lng = 139.6917) {
 
 function onGoToLoc(lat, lng) {
     mapService.goToLoc(lat, lng)
+}
+
+function onDeleteLoc(loc) {
+    mapService.deleteLoc(loc)
 }

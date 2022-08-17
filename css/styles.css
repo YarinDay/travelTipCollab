@@ -7,7 +7,8 @@ body {
 }
 
 .loc-container>* {
-    margin: 40px;
+    height: 55px;
+    margin: 5px;
     padding: 5px;
     border-radius: 4px;
     background-color: #b4bbc1;
