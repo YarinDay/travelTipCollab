@@ -9,26 +9,28 @@
 </head>
 
 <body>
-    <h1>TravelTip Starter</h1>
-    <h1>Yarin & Or's Project</h1>
-    <div id="map" style="width: 100%; height: 400px;"></div>
-    <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>
-    <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>
-    <button onclick="onGetLocs()" class="btn-get-locs">Get Locations</button>
-    <button onclick="onPanTo()" class="btn-pan">Pan Map to Tokyo</button>
-    <button onclick="onHideLocs()" class="btn-hide">Hide Location</button>
-    <button onclick="onClearLocs()" class="btn-delete">Delete Location</button>
-    <button onclick="onMoveToMyLoc()" class="btn-my-loc">My Location</button>
-    <input id="address" type="textbox" placeholder="Where to?">
-    <button class="btn-address" onclick="onGoToAddress()">Encode</button>
+    <div class="main-container">
 
-    <p>You are at: <span class="user-pos"></span></p>
-    <p>Locations:
-    <pre class="locs">
+        <h1>TravelTip Starter</h1>
+        <h1>Yarin & Or's Project</h1>
+        <div id="map" style="width: 100%; height: 400px;"></div>
+        <div class="btn-container">
+            <button onclick="onAddMarker()" class="btn btn-add-marker">Add Marker Speific Location</button>
+            <button onclick="onGetUserPos()" class="btn btn-user-pos">Get User Position</button>
+            <button onclick="onGetLocs()" class="btn btn-get-locs">Get Locations</button>
+            <button onclick="onPanTo()" class="btn btn-pan">Pan Map to Tokyo</button>
+            <button onclick="onHideLocs()" class="btn btn-hide">Hide Location</button>
+            <button onclick="onClearLocs()" class="btn btn-delete">Delete Location</button>
+            <button onclick="onMoveToMyLoc()" class="btn btn-my-loc">My Location</button>
+            <input id="address" type="textbox" placeholder="Where to?">
+            <button class="btn btn-address" onclick="onGoToAddress()">Encode</button>
+        </div>
+    </div>
 
-    </pre>
-    </p>
-
+    <p class="user-pos"> </p>
+    <div class="locs-container">
+        <pre class="locs"></pre>
+    </div>
 
     <script type="module" src="js/app.controller.js"></script>
 </body>
