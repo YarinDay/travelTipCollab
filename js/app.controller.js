@@ -81,9 +81,9 @@ function renderLocs(locs) {
         Location :
         <div class="loc-container">
         ${JSON.stringify(loc, null, 2)}
-        <button onclick="onGoToLoc('${loc.lat}', '${loc.lng}')" class="btn btn-loc-coords">GoTo${loc.name}</button>
+        <button onclick="onGoToLoc('${loc.lat}', '${loc.lng}')" class="btn btn-loc-coords">GoTo -> ${loc.name}😎</button>
         <button onclick="onDeleteLoc('${loc.id}')" class="btn btn-loc-details">
-        Delete
+        Delete💀
         </button>
         </div>`
     })

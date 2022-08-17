@@ -10,6 +10,7 @@ body {
 
 .locs-container {
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
 }
@@ -20,38 +21,37 @@ body {
 }
 
 .btn {
-    max-width: 100px;
-    border: none;
+    margin: 10px 10px 10px 0;
+    height: 60px;
+    border-radius: 7px;
     cursor: pointer;
-    background-color: #b4bbc1;
+    text-align: start;
+    background-image: linear-gradient(#be75f2, #9889fb, #4ff3ff);
 }
 
 .btn:hover {
-    background-color: rgb(184, 168, 168);
+    box-shadow: 0 0 .25rem #be75f2, -.125rem -.125rem 1rem #9889fb, .125rem .125rem 1rem #4ff3ff;
 }
 
 .btn-container {
-    display: inline;
-    width: 100px;
-}
-
-.loc-container {
     display: flex;
-}
-
-.loc-container>* {
-    height: 55px;
-    margin: 5px;
-    padding: 5px;
-    border-radius: 4px;
-    background-color: #b4bbc1;
-    border: 1px solid black;
+    flex-wrap: wrap;
+    justify-self: center;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 600px;
 }
 
 #map {
     border: 1px solid black;
-    width: 550px;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 7px;
+}
+
+#address{
+    height: 25px;
+    align-self: center;
+    border-radius: 7px;
 }

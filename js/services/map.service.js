@@ -39,14 +39,15 @@ function startMap(map, lat, lng) {
     infoWindow.open(map);
     map.addListener("click", (mapsMouseEvent) => {
         console.log('mapsMouseEvent : ', mapsMouseEvent)
-        let lat = mapsMouseEvent.latLng.lat()
-        let lng = mapsMouseEvent.latLng.lng()
-        let locName = prompt('Whats the place name ?')
+        const lat = mapsMouseEvent.latLng.lat()
+        const lng = mapsMouseEvent.latLng.lng()
+        const locName = prompt('Whats the place name ?')
         addLoc(locName, lat, lng)
         infoWindow.close();
         infoWindow = new google.maps.InfoWindow({
             position: mapsMouseEvent.latLng,
         })
+        if(!locName || !locName.length) return
         infoWindow.setContent(locName)
         infoWindow.open(map)
     })
@@ -114,6 +115,9 @@ function goToAddress(address) {
     geocoder.geocode({ 'address': address }, function (results, status) {
         if (status == 'OK') {
             gMap.setCenter(results[0].geometry.location);
+            const lat = results[0].geometry.location.lat()
+            const lng = results[0].geometry.location.lng()
+            addLoc(address, lat, lng)
             // var marker = new google.maps.Marker({
             //     gMap: gMap,
             //     position: results[0].geometry.location
