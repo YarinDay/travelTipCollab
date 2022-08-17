@@ -34,19 +34,14 @@ function startMap(map, lat, lng) {
 
     let infoWindow = new google.maps.InfoWindow({
         content: "Click the map to get Lat/Lng!",
-        position: myLatlng,
-        posLat: myLatlng.lat,
-        posLng: myLatlng.lng
+        position: myLatlng
     });
 
     infoWindow.open(map);
-    
-    // Configure the click listener.
     map.addListener("click", (mapsMouseEvent) => {
-        console.log(infoWindow.content);
-        // Close the current InfoWindow.
+        console.log(infoWindow.position.lat());
+        console.log(infoWindow.position.lng());
         infoWindow.close();
-        // Create a new InfoWindow.
         infoWindow = new google.maps.InfoWindow({
             position: mapsMouseEvent.latLng,
         });
