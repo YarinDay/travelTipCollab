@@ -1,5 +1,5 @@
 
-// import { storageService } from './services/storage.service.js'
+import { storageService } from './services/storage.service.js'
 
 export const mapService = {
     initMap,
@@ -29,11 +29,12 @@ function initMap(lat = 31.501595418345833, lng = 34.46217911117168) {
         })
 }
 
-function startMap(map, myLatlng) {
+function startMap(map, pos) {
+    let { lat, lng } = pos
+    const myLatlng = { lat, lng };
     console.log('myLatlng : ',myLatlng);
-    // const myLatlng = { pos.lat: -25.363, pos.lng: 131.044 };
 
-    // const map = new google.maps.Map(document.getElementById("#map")!, {
+    // const map = new google.maps.Map(document.getElementById("map"), {
     //     zoom: 4,
     //     center: myLatlng,
     // });
@@ -43,20 +44,21 @@ function startMap(map, myLatlng) {
         content: "Click the map to get Lat/Lng!",
         position: myLatlng
     });
-    console.log('position : ',position);
+    console.log('position : ', position);
+    console.log('infoWindow : ',infoWindow);
     infoWindow.open(map);
 
     // Configure the click listener.
     map.addListener("click", (mapsMouseEvent) => {
         // Close the current InfoWindow.
+        console.log('KKK')
+        console.log('infoWindow : ', infoWindow);
         infoWindow.close();
 
         // Create a new InfoWindow.
         infoWindow = new google.maps.InfoWindow({
-            //SAVE
             position: mapsMouseEvent.latLng,
         });
-        console.log('infoWindow!!! : ',infoWindow);
         infoWindow.setContent(
             JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
         );
