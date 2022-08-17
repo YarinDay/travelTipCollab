@@ -1,5 +1,5 @@
 
-import { storageService } from './services/storage.service.js'
+// import { storageService } from './services/storage.service.js'
 
 export const mapService = {
     initMap,
@@ -30,29 +30,24 @@ function initMap(lat = 31.501595418345833, lng = 34.46217911117168) {
 }
 
 function startMap(map, lat, lng) {
-    const myLatlng = { lat, lng }
+    const myLatlng = { lat: lat, lng: lng }
 
     let infoWindow = new google.maps.InfoWindow({
         content: "Click the map to get Lat/Lng!",
-        position: myLatlng,
-        posLat: myLatlng.lat,
-        posLng: myLatlng.lng
+        position: myLatlng
     });
 
     infoWindow.open(map);
-
-    // Configure the click listener.
     map.addListener("click", (mapsMouseEvent) => {
-        console.log(infoWindow.content);
-        // Close the current InfoWindow.
+        console.log('Lat', infoWindow.position.lat())
+        console.log('Lng', infoWindow.position.lng())
         infoWindow.close();
-        // Create a new InfoWindow.
         infoWindow = new google.maps.InfoWindow({
             position: mapsMouseEvent.latLng,
         });
         infoWindow.setContent(
             JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
-        )
+        );
         infoWindow.open(map);
     });
 }
