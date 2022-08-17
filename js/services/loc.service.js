@@ -1,7 +1,11 @@
+// import { storageService } from './services/storage.service.js'
+
 export const locService = {
     getLocs
 }
 
+// const locs = storageService.loadFromStorage(STORAGE_KEY)
+// console.log('storageService.loadFromStorage : ',storageService.loadFromStorage);
 
 const locs = [
     { name: 'Greatplace', lat: 32.047104, lng: 34.832384 }, 

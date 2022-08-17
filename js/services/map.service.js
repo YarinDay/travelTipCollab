@@ -1,4 +1,3 @@
-
 import { storageService } from './storage.service.js'
 
 export const mapService = {
@@ -9,7 +8,9 @@ export const mapService = {
 
 // Var that is used throughout this Module (not global)
 let gMap
-let gLocs
+let gLocs = []
+const STORAGE_KEY = 'travelDB'
+
 function initMap(lat = 31.501595418345833, lng = 34.46217911117168) {
     console.log('InitMap')
     return _connectGoogleApi()
@@ -26,8 +27,9 @@ function initMap(lat = 31.501595418345833, lng = 34.46217911117168) {
 }
 
 function startMap(map, lat, lng) {
-    const myLatlng = { lat: lat, lng: lng }
-
+    const myLatlng = { lat, lng }
+    // {lat: infoWindow.position.lat(), lng: infoWindow.position.lng()}
+    gLocs = []
     let infoWindow = new google.maps.InfoWindow({
         content: "Click the map to get Lat/Lng!",
         position: myLatlng
@@ -35,13 +37,12 @@ function startMap(map, lat, lng) {
 
     infoWindow.open(map);
     map.addListener("click", (mapsMouseEvent) => {
-        console.log('Lat', infoWindow.position.lat())
-        console.log('Lng', infoWindow.position.lng())
         const name = prompt('Enter Location Name')
         addLocs(name, infoWindow.position.lat(), infoWindow.position.lng())
 
         infoWindow.close();
         infoWindow = new google.maps.InfoWindow({
+
             position: mapsMouseEvent.latLng,
         });
         infoWindow.setContent(
@@ -52,8 +53,12 @@ function startMap(map, lat, lng) {
 }
 
 function addLocs(name, lat, lng) {
-    console.log('name, lat, lng', name, lat, lng);
-    storageService.saveToStorage()
+    gLocs.push({
+            name,
+            lat,
+            lng
+        })
+    storageService.saveToStorage(STORAGE_KEY, gLocs)
 }
 
 function addMarker(loc) {
