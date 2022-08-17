@@ -6,9 +6,10 @@ export const mapService = {
     addMarker,
     panTo,
     goToLoc,
-    deleteLoc
+    deleteLoc,
+    goToAddress
 }
-
+let geocoder;
 let gMap
 let gLocs = storageService.load() || []
 
@@ -17,6 +18,7 @@ function initMap(lat = 31.501595418345833, lng = 34.46217911117168) {
     return _connectGoogleApi()
         .then(() => {
             console.log('google available')
+            geocoder = new google.maps.Geocoder();
             gMap = new google.maps.Map(
                 document.querySelector('#map'), {
                 center: { lat, lng },
@@ -43,9 +45,7 @@ function startMap(map, lat, lng) {
         infoWindow = new google.maps.InfoWindow({
             position: mapsMouseEvent.latLng,
         })
-        infoWindow.setContent(
-            JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
-        )
+        infoWindow.setContent(locName)
         infoWindow.open(map)
     })
 }
@@ -105,4 +105,18 @@ function deleteLoc(locId) {
     const index = gLocs.findIndex(loc => loc.id === locId)
     gLocs.splice(index, 1)
     _saveInfoToStorage()
+}
+
+function goToAddress(address) {
+    geocoder.geocode({ 'address': address }, function (results, status) {
+        if (status == 'OK') {
+            gMap.setCenter(results[0].geometry.location);
+            // var marker = new google.maps.Marker({
+            //     gMap: gMap,
+            //     position: results[0].geometry.location
+            // });
+        } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+        }
+    });
 }

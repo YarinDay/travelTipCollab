@@ -18,31 +18,9 @@
     <button onclick="onPanTo()" class="btn-pan">Pan Map to Tokyo</button>
     <button onclick="onHideLocs()" class="btn-hide">Hide Location</button>
     <button onclick="onClearLocs()" class="btn-delete">Delete Location</button>
-
-    <!-- <h1>
-        Notes:
-        <p>
-            <h6>
-                <h3>*****Header**</h3>
-                Logo: Top Left "TravelTip"
-                Make a form search Bar (TOP RIGHT) Next to it put "My Location"<br>
-                Below that put "Copy Location That Copy the Details of the location"
-                Location Below the logo with the curr Location
-                <br>
-                <h3>Main Section</h3>
-                3 Divs {
-                    1. Weather Container = Sticks to the left 6fr
-                    2. Locations Container = Sticks to the left 4fr
-                    3. Map Container Takes 1005 of the Row Space and sticks to the right
-                }
-            </h6>
-<p>
-    ipsum dolor, sit amet consectetur adipisicing elit. Velit quaerat reiciendis at. Culpa odit nisi, laborum voluptatem praesentium illum autem libero sed saepe fugiat quae omnis dignissimos? Tenetur soluta perspiciatis praesentium minus esse repellendus officiis incidunt sit, eaque accusamus commodi doloremque velit dicta, nostrum nam, temporibus sapiente quia molestias voluptatibus?
-</p>
-        </p>
-    </h1> -->
-
-
+    <button onclick="onMoveToMyLoc()" class="btn-my-loc">My Location</button>
+    <input id="address" type="textbox" placeholder="Where to?">
+    <button class="btn-address" onclick="onGoToAddress()">Encode</button>
 
     <p>You are at: <span class="user-pos"></span></p>
     <p>Locations:
