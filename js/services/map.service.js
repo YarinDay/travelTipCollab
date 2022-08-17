@@ -1,4 +1,6 @@
 import { storageService } from './storage.service.js'
+import { appController } from '../app.controller.js'
+// import { appController } from '../app.controller.js'
 import { utilService } from './utils.service.js'
 
 export const mapService = {
@@ -6,7 +8,7 @@ export const mapService = {
     addMarker,
     panTo,
     goToLoc,
-    deleteLoc
+    deleteLoc,
 }
 
 let gMap
@@ -105,4 +107,5 @@ function deleteLoc(locId) {
     const index = gLocs.findIndex(loc => loc.id === locId)
     gLocs.splice(index, 1)
     _saveInfoToStorage()
+    appController.renderLocs(gLocs)
 }

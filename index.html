@@ -9,47 +9,25 @@
 </head>
 
 <body>
-    <h1>TravelTip Starter</h1>
-    <h1>Yarin & Or's Project</h1>
-    <div id="map" style="width: 100%; height: 400px;"></div>
-    <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>
-    <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>
-    <button onclick="onGetLocs()" class="btn-get-locs">Get Locations</button>
-    <button onclick="onPanTo()" class="btn-pan">Pan Map to Tokyo</button>
-    <button onclick="onHideLocs()" class="btn-hide">Hide Location</button>
-    <button onclick="onClearLocs()" class="btn-delete">Delete Location</button>
 
-    <!-- <h1>
-        Notes:
-        <p>
-            <h6>
-                <h3>*****Header**</h3>
-                Logo: Top Left "TravelTip"
-                Make a form search Bar (TOP RIGHT) Next to it put "My Location"<br>
-                Below that put "Copy Location That Copy the Details of the location"
-                Location Below the logo with the curr Location
-                <br>
-                <h3>Main Section</h3>
-                3 Divs {
-                    1. Weather Container = Sticks to the left 6fr
-                    2. Locations Container = Sticks to the left 4fr
-                    3. Map Container Takes 1005 of the Row Space and sticks to the right
-                }
-            </h6>
-<p>
-    ipsum dolor, sit amet consectetur adipisicing elit. Velit quaerat reiciendis at. Culpa odit nisi, laborum voluptatem praesentium illum autem libero sed saepe fugiat quae omnis dignissimos? Tenetur soluta perspiciatis praesentium minus esse repellendus officiis incidunt sit, eaque accusamus commodi doloremque velit dicta, nostrum nam, temporibus sapiente quia molestias voluptatibus?
-</p>
-        </p>
-    </h1> -->
+    <div class="main-container">
+        <h1>TravelTip Starter</h1>
+        <h1>Yarin & Or's Project</h1>
+        <div id="map" style="width: 100%; height: 400px;"></div>
+        <div class="btn-container">
+            <button onclick="onAddMarker()" class="btn btn-add-marker">Add Marker Speific Location</button>
+            <button onclick="onGetUserPos()" class="btn btn-user-pos">Get User Position</button>
+            <button onclick="onGetLocs()" class="btn btn-get-locs">Get Locations</button>
+            <button onclick="onPanTo()" class="btn btn-pan">Pan Map to Tokyo</button>
+            <button onclick="onHideLocs()" class="btn btn-hide">Hide Location</button>
+            <button onclick="onClearLocs()" class="btn btn-delete">Delete Location</button>
+        </div>
+    </div>
 
-
-
-    <p>You are at: <span class="user-pos"></span></p>
-    <p>Locations:
-    <pre class="locs">
-
-    </pre>
-    </p>
+    <p class="user-pos"> </p>
+<div class="locs-container">
+        <pre class="locs"></pre>
+</div>
 
 
     <script type="module" src="js/app.controller.js"></script>
