@@ -52,7 +52,7 @@ function startMap(map, lat, lng) {
         });
         infoWindow.setContent(
             JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
-        );
+        )
         infoWindow.open(map);
     });
 }
