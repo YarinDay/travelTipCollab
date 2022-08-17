@@ -1,5 +1,5 @@
 
-// import { storageService } from './services/storage.service.js'
+import { storageService } from './storage.service.js'
 
 export const mapService = {
     initMap,
@@ -8,7 +8,9 @@ export const mapService = {
 }
 
 // Var that is used throughout this Module (not global)
-var gMap
+let gMap
+let gLocs
+const STORAGE_KEY = 'travelDB'
 
 function initMap(lat = 31.501595418345833, lng = 34.46217911117168) {
     console.log('InitMap')
@@ -30,8 +32,9 @@ function initMap(lat = 31.501595418345833, lng = 34.46217911117168) {
 }
 
 function startMap(map, lat, lng) {
-    const myLatlng = { lat: lat, lng: lng }
-
+    const myLatlng = { lat, lng }
+    // {lat: infoWindow.position.lat(), lng: infoWindow.position.lng()}
+    gLocs = []
     let infoWindow = new google.maps.InfoWindow({
         content: "Click the map to get Lat/Lng!",
         position: myLatlng
@@ -39,10 +42,14 @@ function startMap(map, lat, lng) {
 
     infoWindow.open(map);
     map.addListener("click", (mapsMouseEvent) => {
+        gLocs.push({ lat: infoWindow.position.lat(), lng: infoWindow.position.lng() })
         console.log('Lat', infoWindow.position.lat())
         console.log('Lng', infoWindow.position.lng())
+
+        _saveInfoToStorage(STORAGE_KEY, gLocs)
         infoWindow.close();
         infoWindow = new google.maps.InfoWindow({
+
             position: mapsMouseEvent.latLng,
         });
         infoWindow.setContent(
@@ -50,6 +57,11 @@ function startMap(map, lat, lng) {
         );
         infoWindow.open(map);
     });
+}
+
+function _saveInfoToStorage(key, val) {
+    console.log('key : ', key);
+    storageService.save(key, val)
 }
 
 function addMarker(loc) {
