@@ -1,5 +1,5 @@
 export const storageService = {
-    saveToStorage,
+    save: saveToStorage,
     loadFromStorage
 }
 
@@ -13,3 +13,21 @@ function loadFromStorage(key) {
     const val = JSON.parse(str)
     return val
 }
+=======
+    save: saveToStorage,
+    load: loadFromStorage
+}
+
+const STORAGE_KEY = 'travelDB'
+
+        function saveToStorage(val) {
+            const str = JSON.stringify(val)
+            localStorage.setItem(STORAGE_KEY, str)
+        }
+        
+        function loadFromStorage() {
+            const str = localStorage.getItem(STORAGE_KEY)
+            const val = JSON.parse(str)
+            return val
+        }
+>>>>>>> 4528ed5b89435128a771b3061f28d719fe733953

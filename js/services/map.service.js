@@ -1,15 +1,18 @@
 import { storageService } from './storage.service.js'
+import { appController } from '../app.controller.js'
+import { utilService } from './utils.service.js'
 
 export const mapService = {
     initMap,
     addMarker,
-    panTo
+    panTo,
+    goToLoc
 }
 
 // Var that is used throughout this Module (not global)
 let gMap
-let gLocs = []
-const STORAGE_KEY = 'travelDB'
+// const STORAGE_KEY = 'travelDB'
+let gLocs = storageService.load() || []
 
 function initMap(lat = 31.501595418345833, lng = 34.46217911117168) {
     console.log('InitMap')
@@ -28,17 +31,20 @@ function initMap(lat = 31.501595418345833, lng = 34.46217911117168) {
 
 function startMap(map, lat, lng) {
     const myLatlng = { lat, lng }
-    // {lat: infoWindow.position.lat(), lng: infoWindow.position.lng()}
-    gLocs = []
     let infoWindow = new google.maps.InfoWindow({
         content: "Click the map to get Lat/Lng!",
         position: myLatlng
     });
-
     infoWindow.open(map);
     map.addListener("click", (mapsMouseEvent) => {
-        const name = prompt('Enter Location Name')
-        addLocs(name, infoWindow.position.lat(), infoWindow.position.lng())
+        console.log('mapsMouseEvent : ',mapsMouseEvent);
+        let lat = mapsMouseEvent.latLng.lat()
+        let lng = mapsMouseEvent.latLng.lng()
+        console.log('lat : ',lat);
+        console.log('lng : ',lng);
+        let locName = prompt('Whats the place name ?')
+        addLoc(lat, lng, locName)
+        // console.log('infoWindow : ',infoWindow.position.lat());
 
         infoWindow.close();
         infoWindow = new google.maps.InfoWindow({
@@ -52,13 +58,21 @@ function startMap(map, lat, lng) {
     });
 }
 
-function addLocs(name, lat, lng) {
+function addLoc(lat, lng, name) {
+    console.log('lat : ',lat);
+    console.log('lng : ',lng);
     gLocs.push({
-            name,
-            lat,
-            lng
-        })
-    storageService.saveToStorage(STORAGE_KEY, gLocs)
+        lat,
+        lng,
+        name,
+        id: utilService.makeId(),
+        createdAt: Date.now(),
+    })
+    _saveInfoToStorage()
+}
+
+function _saveInfoToStorage() {
+    storageService.save(gLocs)
 }
 
 function addMarker(loc) {
@@ -72,8 +86,10 @@ function addMarker(loc) {
 
 function panTo(lat, lng) {
     var laLatLng = new google.maps.LatLng(lat, lng)
-    console.log('laLatLng : ', laLatLng);
-    gMap.panTo(laLatLng)
+    let loc = { lat: laLatLng.lat(), lng: laLatLng.lng() }
+    console.log('laLatLng : ', loc);
+    console.log('gMap : ', gMap);
+    gMap.panTo(loc)
 }
 
 function _connectGoogleApi() {
@@ -88,4 +104,17 @@ function _connectGoogleApi() {
         elGoogleApi.onload = resolve
         elGoogleApi.onerror = () => reject('Google script failed to load')
     })
+}
+//32.0132° N,
+// 34.7480° E
+function goToLoc(lat, lng) {
+    console.log('lat : ',lat);
+    console.log('lng : ',lng);
+    var laLatLng = new google.maps.LatLng(lat, lng)
+    console.log('laLatLng : ',laLatLng);
+    let loc = { lat: laLatLng.lat(), lng: laLatLng.lng() }
+    console.log('laLatLng : ', loc);
+    console.log('gMap : ', gMap);
+    gMap.panTo(loc)
+
 }
